@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1A10D9B3-C1DC-47EB-BD5F-630FDCBA8D30}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CraneChat.SQSMessages</RootNamespace>
+    <AssemblyName>CraneChatSQSMessages</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CraneChatMessage.cs" />
+    <Compile Include="Notifications\BroadcastMessageNotification.cs" />
+    <Compile Include="Notifications\GroupMessageNotification.cs" />
+    <Compile Include="Notifications\PrivateMessageNotification.cs" />
+    <Compile Include="Notifications\UserStatusNotification.cs" />
+    <Compile Include="Requests\CraneChatSendMessageRequest.cs" />
+    <Compile Include="Requests\PingRequest.cs" />
+    <Compile Include="Requests\AddContactRequest.cs" />
+    <Compile Include="Requests\AddToGroupRequest.cs" />
+    <Compile Include="Requests\FollowUserRequest.cs" />
+    <Compile Include="Requests\GetAllGroupsListRequest.cs" />
+    <Compile Include="Requests\GetMyContactsListRequest.cs" />
+    <Compile Include="Requests\GetMyGroupsListRequest.cs" />
+    <Compile Include="Requests\LogoutRequest.cs" />
+    <Compile Include="Requests\RemoveFromGroupRequest.cs" />
+    <Compile Include="Notifications\CraneChatReceiveMessageNotification.cs" />
+    <Compile Include="Responses\MyContactListResponse.cs" />
+    <Compile Include="Responses\CraneChatGroupResponse.cs" />
+    <Compile Include="Responses\MyGroupsListResponse.cs" />
+    <Compile Include="Responses\AllGroupsListResponse.cs" />
+    <Compile Include="Responses\SendBroadcastMessageResponse.cs" />
+    <Compile Include="Requests\CraneChatRequest.cs" />
+    <Compile Include="Responses\CraneChatSendMessageResponse.cs" />
+    <Compile Include="Responses\CraneChatResponse.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Responses\ErrorCraneChatMessageResponse.cs" />
+    <Compile Include="Responses\SendGroupMessageResponse.cs" />
+    <Compile Include="Requests\LoginRequest.cs" />
+    <Compile Include="MessageAttachment.cs" />
+    <Compile Include="Responses\SendPrivateMessageResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\SearchMessagesResponse.cs" />
+    <Compile Include="Requests\SendBroadcastMessageRequest.cs" />
+    <Compile Include="Requests\SendMessageToGroupRequest.cs" />
+    <Compile Include="Requests\SendPrivateMessageRequest.cs" />
+    <Compile Include="Requests\SearchMessagesRequest.cs" />
+    <Compile Include="Requests\UnfollowUserRequest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
