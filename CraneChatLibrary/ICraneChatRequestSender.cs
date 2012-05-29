@@ -15,7 +15,7 @@ namespace CraneChat.Client
 
         void SendBroadcastMessage(SendBroadcastMessageRequest sendBroadcastMessageRequest);
         void SendMessageToGroup(SendMessageToGroupRequest sendMessageToGroupRequest);
-        void SendPrivateMessage(SendPrivateMessagepRequest sendPrivateMessagepRequest);
+        void SendPrivateMessage(SendPrivateMessageRequest sendPrivateMessagepRequest);
 
         void FollowUser(FollowUserRequest followUserRequest);
         void UnfollowUser(UnfollowUserRequest unfollowUserRequest);

@@ -124,7 +124,7 @@ namespace CraneChat.Client
                 return;
             }
 
-            m_RequestSender.SendPrivateMessage(new SendPrivateMessagepRequest(m_UserName, m_Password, body, attachments, toUser));
+            m_RequestSender.SendPrivateMessage(new SendPrivateMessageRequest(m_UserName, m_Password, body, attachments, toUser));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -225,7 +225,20 @@ namespace CraneChat.Client
 
             m_RequestSender.SearchMessages(new SearchMessagesRequest(m_UserName, m_Password, regularExpression));
         }
-        
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public CraneChatRequest GetAndRemoveSentRequestById(Guid requestId)
+        {
+            CraneChatRequest result = null;
+
+            if (m_SentRequests.TryGetValue(requestId, out result))
+            {
+                m_SentRequests.Remove(requestId);
+            }
+
+            return result;
+        }
+
         #endregion
 
         private void StartPingTask()
@@ -308,6 +321,9 @@ namespace CraneChat.Client
         private Task m_PingTask = null;
         private CancellationTokenSource m_PingTaskCancellationTokenSource = null;
 
+        private Dictionary<Guid, CraneChatRequest> m_SentRequests = new Dictionary<Guid, CraneChatRequest>();
+
         private bool m_Disposed = false;
+
     }
 }

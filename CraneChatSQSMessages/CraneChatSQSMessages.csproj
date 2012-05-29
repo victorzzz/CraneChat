@@ -56,6 +56,7 @@
     <Compile Include="Requests\LogoutRequest.cs" />
     <Compile Include="Requests\RemoveFromGroupRequest.cs" />
     <Compile Include="Notifications\CraneChatReceiveMessageNotification.cs" />
+    <Compile Include="Responses\LoginResponse.cs" />
     <Compile Include="Responses\MyContactListResponse.cs" />
     <Compile Include="Responses\CraneChatGroupResponse.cs" />
     <Compile Include="Responses\MyGroupsListResponse.cs" />

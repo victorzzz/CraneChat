@@ -15,13 +15,6 @@ namespace CraneChat.ServerApp
 {
     class RequestProcessor : IRequestProcessor
     {
-        public delegate void LoginRequestEventHandler(LoginRequest message);
-        public delegate void LogoutRequestEventHandler(LogoutRequest message);
-        public delegate void PingRequestEventHandler(PingRequest message);
-        public delegate void FollowUserRequestEventHandler(FollowUserRequest message);
-        public delegate void UnfollowUserRequestEventHandler(UnfollowUserRequest message);
-        public delegate void SendBroadcastMessageRequestEventHandler(SendBroadcastMessageRequest message);
-
         public event LoginRequestEventHandler LoginRequestEvent;
         public event LogoutRequestEventHandler LogoutRequestEvent;
         public event PingRequestEventHandler PingRequestEvent;

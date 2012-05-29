@@ -14,20 +14,6 @@ namespace CraneChat.Client
 {
     class CraneChatMessageProcessor : ICraneChatMessageProcessor
     {
-        public delegate void UserStatusNotificationEventHandler(UserStatusNotification message);
-        public delegate void BroadcastMessageNotificationEventHandler(BroadcastMessageNotification message);
-        public delegate void PrivateMessageNotificationEventHandler(PrivateMessageNotification message);
-        public delegate void GroupMessageNotificationEventHandler(GroupMessageNotification message);
-        public delegate void AllGroupsListResponseEventHandler(AllGroupsListResponse message);
-        public delegate void CraneChatGroupResponseEventHandler(CraneChatGroupResponse message);
-        public delegate void ErrorCraneChatMessageResponseEventHandler(ErrorCraneChatMessageResponse message);
-        public delegate void MyContactListResponseEventHandler(MyContactListResponse message);
-        public delegate void MyGroupsListResponseEventHandler(MyGroupsListResponse message);
-        public delegate void SearchMessagesResponseEventHandler(SearchMessagesResponse message);
-        public delegate void SendBroadcastMessageResponseEventHandler(SendBroadcastMessageResponse message);
-        public delegate void SendGroupMessageResponseEventHandler(SendGroupMessageResponse message);
-        public delegate void SendPrivateMessageResponse(SendPrivateMessageResponse message);
-
         public event UserStatusNotificationEventHandler UserStatusNotificationEvent;
         public event BroadcastMessageNotificationEventHandler BroadcastMessageNotificationEvent;
         public event PrivateMessageNotificationEventHandler PrivateMessageNotificationEvent;
@@ -40,7 +26,8 @@ namespace CraneChat.Client
         public event SearchMessagesResponseEventHandler SearchMessagesResponseEvent;
         public event SendBroadcastMessageResponseEventHandler SendBroadcastMessageResponseEvent;
         public event SendGroupMessageResponseEventHandler SendGroupMessageResponseEvent;
-        public event SendPrivateMessageResponse SendPrivateMessageResponseEvent;
+        public event SendPrivateMessageResponseEventHandler SendPrivateMessageResponseEvent;
+        public event LoginResponseEventHandler LoginResponseEvent;
 
         public CraneChatMessageProcessor()
         {
@@ -168,6 +155,14 @@ namespace CraneChat.Client
             if (null != SendPrivateMessageResponseEvent)
             {
                 SendPrivateMessageResponseEvent(message);
+            }
+        }
+
+        void OnMessage(LoginResponse message)
+        {
+            if (null != LoginResponseEvent)
+            {
+                LoginResponseEvent(message);
             }
         }
 

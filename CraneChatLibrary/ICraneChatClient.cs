@@ -36,5 +36,7 @@ namespace CraneChat.Client
         void GetMyContactsList();
 
         void SearchMessages(string regularExpression);
+
+        CraneChatRequest GetAndRemoveSentRequestById(Guid requestId);
     }
 }

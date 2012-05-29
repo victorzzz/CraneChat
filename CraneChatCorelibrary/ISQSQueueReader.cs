@@ -25,7 +25,7 @@ namespace CraneChat.CoreLibrary
     {
         event SQSMessageEventHandler SQSMessageEvent;
         
-        void Run(bool inCurrentThread);
+        void Run(bool inCurrentThread = false);
         void Stop();
     }
 }
