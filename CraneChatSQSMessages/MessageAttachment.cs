@@ -8,16 +8,19 @@ namespace CraneChat.SQSMessages
     [Serializable]
     public class MessageAttachment
     {
-        public MessageAttachment(string cloudFrontURL = "")
+        public MessageAttachment(string cloudFrontURL = "", string description = "")
         {
             CloudFrontURI = new Uri(cloudFrontURL);
+            Description = description;
         }
 
-        public MessageAttachment(Uri cloudFrontURI)
+        public MessageAttachment(Uri cloudFrontURL, string description)
         {
-            CloudFrontURI = cloudFrontURI;
+            CloudFrontURI = cloudFrontURL;
+            Description = description;
         }
 
-        public Uri CloudFrontURI { get; private set; }
+        public Uri CloudFrontURI { get; set; }
+        public string Description { get; set; }
      }
 }

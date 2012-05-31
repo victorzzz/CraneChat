@@ -18,6 +18,7 @@ namespace CraneChat.ServerApp
     public delegate void FollowUserRequestEventHandler(FollowUserRequest message);
     public delegate void UnfollowUserRequestEventHandler(UnfollowUserRequest message);
     public delegate void SendBroadcastMessageRequestEventHandler(SendBroadcastMessageRequest message);
+    public delegate void SearchMessageRequestEventHandler(SearchMessagesRequest message);
 
     interface IRequestProcessor : IDisposable
     {
@@ -27,6 +28,7 @@ namespace CraneChat.ServerApp
         event FollowUserRequestEventHandler FollowUserRequestEvent;
         event UnfollowUserRequestEventHandler UnfollowUserRequestEvent;
         event SendBroadcastMessageRequestEventHandler SendBroadcastMessageRequestEvent;
+        event SearchMessageRequestEventHandler SearchMessageRequestEvent;
 
         void ProcessIncomingMessage(object sender, SQSMessageEventArgs e);
     }

@@ -35,6 +35,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\AWS SDK for .NET\bin\AWSSDK.dll</HintPath>
       <Private>True</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -67,10 +68,6 @@
     <ProjectReference Include="..\CraneChatSQSMessages\CraneChatSQSMessages.csproj">
       <Project>{1A10D9B3-C1DC-47EB-BD5F-630FDCBA8D30}</Project>
       <Name>CraneChatSQSMessages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CraneChatWebApp\CraneChatWeb\CraneChatWeb.csproj">
-      <Project>{B465B465-F28C-4DBA-9885-0494BF6BA36A}</Project>
-      <Name>CraneChatWeb</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

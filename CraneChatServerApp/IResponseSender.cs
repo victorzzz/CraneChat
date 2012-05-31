@@ -9,8 +9,11 @@ namespace CraneChat.ServerApp
 {
     interface IResponseSender : IDisposable
     {
-        void SendErrorResponse(string userName, string error);
-        void SendLoginResponse(string userName);
-        void SendBroadcastMessageNotification(string userName, string body, List<MessageAttachment> attachments);
+        void SendErrorResponse(CraneChatRequest request, string error);
+        void SendOKResponse(CraneChatRequest request);
+        void SendLoginResponse(CraneChatRequest request);
+        void SendBroadcastMessageNotification(string toUser, string body, List<MessageAttachment> attachments, string fromUser);
+        void SendBroadcastMessageResponse(CraneChatRequest request);
+        void SendSearchMessagesResponse(CraneChatRequest request, IEnumerable<SearchMessagesResponseItem> items);
     }
 }

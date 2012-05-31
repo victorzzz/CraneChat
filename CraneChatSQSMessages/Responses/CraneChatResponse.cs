@@ -6,9 +6,9 @@ using System.Text;
 namespace CraneChat.SQSMessages
 {
     [Serializable]
-    public abstract class CraneChatResponse : CraneChatMessage
+    public class CraneChatResponse : CraneChatMessage
     {
-        protected CraneChatResponse()
+        public CraneChatResponse()
             : base()
         {
         }

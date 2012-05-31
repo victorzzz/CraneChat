@@ -5,26 +5,18 @@ using System.Text;
 using System.Configuration;
 
 using Amazon;
-
-//using Amazon.SimpleDB;
-//using Amazon.SimpleDB.Model;
-
 using Amazon.SQS;
 using Amazon.SQS.Model;
 
+using CraneChat.CoreLibrary;
 using CraneChat.SQSMessages;
 
 namespace CraneChat.Client
 {
-    public class CraneChatRequestSender : ICraneChatRequestSender, IDisposable
+    public class CraneChatRequestSender : BaseDisposable, ICraneChatRequestSender, IDisposable
     {
         public CraneChatRequestSender()
         {
-            // initialize Amazon SimpleDBClient
-//            AmazonSimpleDBConfig simpleDBConfig = new AmazonSimpleDBConfig();
-//            simpleDBConfig.ServiceURL = ConfigurationManager.AppSettings["SimpleDBServiceURL"].ToString();
-//            m_simpleDBClient = AWSClientFactory.CreateAmazonSimpleDBClient(simpleDBConfig);
-
             // initialize Amazon SQSClient
             AmazonSQSConfig sqsConfig = new AmazonSQSConfig();
             sqsConfig.ServiceURL = ConfigurationManager.AppSettings["SQSServiceURL"].ToString();
@@ -46,164 +38,104 @@ namespace CraneChat.Client
             }
         }
 
-        ~CraneChatRequestSender()
-        {
-            Dispose(false);
-        }
-
-#region IDisposable implementation
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-#endregion
-
         #region ICraneChatRequestSender implementation
 
         public void Login(LoginRequest loginRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(loginRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(loginRequest.ToXML());
         }
 
         public void Logout(LogoutRequest logoutRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(logoutRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(logoutRequest.ToXML());
         }
 
         public void Ping(PingRequest pingRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(pingRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(pingRequest.ToXML());
         }
 
         public void SendBroadcastMessage(SendBroadcastMessageRequest sendBroadcastMessageRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(sendBroadcastMessageRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(sendBroadcastMessageRequest.ToXML());
         }
 
         public void SendMessageToGroup(SendMessageToGroupRequest sendMessageToGroupRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(sendMessageToGroupRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(sendMessageToGroupRequest.ToXML());
         }
 
         public void SendPrivateMessage(SendPrivateMessageRequest sendPrivateMessagepRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(sendPrivateMessagepRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(sendPrivateMessagepRequest.ToXML());
         }
 
         public void FollowUser(FollowUserRequest followUserRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(followUserRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(followUserRequest.ToXML());
         }
 
         public void UnfollowUser(UnfollowUserRequest unfollowUserRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(unfollowUserRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(unfollowUserRequest.ToXML());
         }
 
 
         public void AddToGroup(AddToGroupRequest addToGroupRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(addToGroupRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(addToGroupRequest.ToXML());
         }
 
         public void RemoveFromGroup(RemoveFromGroupRequest removeFromGroupRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(removeFromGroupRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(removeFromGroupRequest.ToXML());
         }
 
         public void AddContact(AddContactRequest requestContactRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(requestContactRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(requestContactRequest.ToXML());
         }
 
         public void GetAllGroupsList(GetAllGroupsListRequest getAllGroupsListtRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(getAllGroupsListtRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(getAllGroupsListtRequest.ToXML());
         }
 
         public void GetMyGroupsList(GetMyGroupsListRequest getAllGroupsListtRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(getAllGroupsListtRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(getAllGroupsListtRequest.ToXML());
         }
 
         public void GetMyContactsList(GetMyContactsListRequest getMyContactsListRequest)
         {
-            m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(getMyContactsListRequest.ToXML()).
-                WithQueueUrl(m_requestQueueUrl));
+            SendRequest(getMyContactsListRequest.ToXML());
         }
 
 
         public void SearchMessages(SearchMessagesRequest searchMessagesRequest)
         {
+            SendRequest(searchMessagesRequest.ToXML());
+        }
+
+
+#endregion
+
+        private void SendRequest(string requestBody)
+        {
             m_sqsClient.SendMessage(new SendMessageRequest().
-                WithMessageBody(searchMessagesRequest.ToXML()).
+                WithMessageBody(requestBody).
                 WithQueueUrl(m_requestQueueUrl));
         }
 
-
-#endregion
-
-#region private methods
-
-#endregion
-
-#region protedcted methods
-
-        protected virtual void Dispose(bool disposing)
+        protected override void SafeManagedResourcesDisposing()
         {
-            if (!m_disposed)
-            {
-                if (disposing)
-                {
-//                    m_simpleDBClient.Dispose();
-                    m_sqsClient.Dispose();
-
-//                    m_simpleDBClient = null;
-                    m_sqsClient = null;
-                }
-
-                m_disposed = true;
-            }
+            m_sqsClient.Dispose();
+            m_sqsClient = null;
         }
 
-#endregion
-
 #region privat data fields
-
- //       private AmazonSimpleDB m_simpleDBClient = null;
-
         private AmazonSQS m_sqsClient = null;
         private string m_requestQueueUrl = null;
-
-        private bool m_disposed = false;
 #endregion
 
     }

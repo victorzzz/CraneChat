@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDisposable.cs" />
+    <Compile Include="CraneChatUtility.cs" />
     <Compile Include="ISQSQueueReader.cs" />
     <Compile Include="SQSQueueReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

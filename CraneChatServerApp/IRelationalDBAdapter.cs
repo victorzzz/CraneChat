@@ -7,7 +7,9 @@ namespace CraneChat.ServerApp
 {
     interface IRelationalDBAdapter : IDisposable
     {
-        void FollowUser(string requesterName, string userToFollow);
-        void UnFollowUser(string requesterName, string userToUnFollow);
+        bool FollowUser(string requesterName, string userToFollow);
+        bool UnFollowUser(string requesterName, string userToUnFollow);
+
+        IEnumerable<string> GetFollowers(string userName);
     }
 }

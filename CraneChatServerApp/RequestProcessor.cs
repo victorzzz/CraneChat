@@ -13,7 +13,7 @@ using CraneChat.CoreLibrary;
 
 namespace CraneChat.ServerApp
 {
-    class RequestProcessor : IRequestProcessor
+    class RequestProcessor : BaseDisposable, IRequestProcessor
     {
         public event LoginRequestEventHandler LoginRequestEvent;
         public event LogoutRequestEventHandler LogoutRequestEvent;
@@ -21,6 +21,7 @@ namespace CraneChat.ServerApp
         public event FollowUserRequestEventHandler FollowUserRequestEvent;
         public event UnfollowUserRequestEventHandler UnfollowUserRequestEvent;
         public event SendBroadcastMessageRequestEventHandler SendBroadcastMessageRequestEvent;
+        public event SearchMessageRequestEventHandler SearchMessageRequestEvent;
 
         public RequestProcessor()
         {
@@ -105,7 +106,10 @@ namespace CraneChat.ServerApp
 
         void OnMessage(SearchMessagesRequest message)
         {
-
+            if (null != SearchMessageRequestEvent)
+            {
+                SearchMessageRequestEvent(message);
+            }
         }
 
         void OnMessage(SendBroadcastMessageRequest message)

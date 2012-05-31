@@ -5,28 +5,27 @@ using System.Text;
 using System.Configuration;
 using System.IO;
 
-using CraneChat.SQSMessages;
-
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using Amazon.S3.Util;
 
+using CraneChat.SQSMessages;
+using CraneChat.CoreLibrary;
+
 namespace CraneChat.Client
 {
-    class CraneChatS3Uploader : ICraneChatS3Uploader, IDisposable
+    class CraneChatS3Uploader : BaseDisposable, ICraneChatS3Uploader, IDisposable
     {
         public CraneChatS3Uploader()
         {
-            AmazonS3Config s3Config = new AmazonS3Config().WithServiceURL(ConfigurationManager.AppSettings["SQSServiceURL"].ToString());
+            m_CloudFrontRoot = new Uri(ConfigurationManager.AppSettings["CloudFrontRoot"]);
+            m_BucketName = ConfigurationManager.AppSettings["BucketName"];
+
+            AmazonS3Config s3Config = new AmazonS3Config().WithServiceURL(ConfigurationManager.AppSettings["S3ServiceURL"].ToString());
             AmazonS3 s3Client = AWSClientFactory.CreateAmazonS3Client(s3Config);
             m_s3transferUtility = new TransferUtility(s3Client);
-        }
-
-        ~CraneChatS3Uploader()
-        {
-            Dispose(false);
         }
 
         #region ICraneChatS3Uploader implemntation
@@ -35,22 +34,26 @@ namespace CraneChat.Client
         {
             List<MessageAttachment> result = new List<MessageAttachment>();
 
-            foreach (var res in localResources)
+            if (null != localResources)
             {
-                Guid guid = Guid.NewGuid();
+                foreach (var res in localResources)
+                {
+                    Guid guid = Guid.NewGuid();
 
-                string key = guid.ToString() + Path.GetFileName(res.LocalPath);
+                    string fileName = Path.GetFileName(res.LocalPath);
+                    string key = guid.ToString() + fileName;
 
-                TransferUtilityUploadRequest request = new TransferUtilityUploadRequest()
-                    .WithBucketName(BucketName)
-                    .WithFilePath(res.LocalPath)
-                    .WithSubscriber(this.UploadFileProgressCallback)
-                    .WithCannedACL(S3CannedACL.PublicRead)
-                    .WithKey(key);
-                m_s3transferUtility.Upload(request);
+                    TransferUtilityUploadRequest request = new TransferUtilityUploadRequest()
+                        .WithBucketName(m_BucketName)
+                        .WithFilePath(res.LocalPath)
+                        .WithSubscriber(this.UploadFileProgressCallback)
+                        .WithCannedACL(S3CannedACL.PublicRead)
+                        .WithKey(key);
+                    m_s3transferUtility.Upload(request);
 
-                MessageAttachment attachment = new MessageAttachment(new Uri(CloudFrontRoot, key));
-                result.Add(attachment);
+                    MessageAttachment attachment = new MessageAttachment(new Uri(m_CloudFrontRoot, key), res.Description ?? fileName);
+                    result.Add(attachment);
+                }
             }
 
             return result;
@@ -58,26 +61,10 @@ namespace CraneChat.Client
 
         #endregion
 
-        #region IDisposable implementation
-        public void Dispose()
+        protected override void SafeManagedResourcesDisposing()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!m_disposed)
-            {
-                if (disposing)
-                {
-                    m_s3transferUtility.Dispose();
-                    m_s3transferUtility = null;
-                }
-
-                m_disposed = true;
-            }
+            m_s3transferUtility.Dispose();
+            m_s3transferUtility = null;
         }
 
         private void UploadFileProgressCallback(object sender, UploadProgressArgs e)
@@ -85,11 +72,9 @@ namespace CraneChat.Client
 
         }
 
-        private bool m_disposed = false;
-
         private TransferUtility m_s3transferUtility = null;
 
-        static readonly string BucketName = "cranechat";
-        static readonly Uri CloudFrontRoot = new Uri("https://diakfw4vwoegb.cloudfront.net/");
+        private string m_BucketName = null;
+        private Uri m_CloudFrontRoot = null;
     }
 }

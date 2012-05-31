@@ -13,48 +13,24 @@ using CraneChat.CoreLibrary;
 
 namespace CraneChat.Client
 {
-    class CraneChatClient : ICraneChatClient, IDisposable
+    public class CraneChatClient : BaseDisposable, ICraneChatClient, IDisposable
     {
         public CraneChatClient()
         {
             MessageProcesor = new CraneChatMessageProcessor();
         }
 
-        #region IDisposable implementation
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        
-        #endregion
-
-        ~CraneChatClient()
-        {
-            Dispose(false);
-        }
-
         [MethodImpl(MethodImplOptions.Synchronized)]
-        protected virtual void Dispose(bool disposing)
+        protected override void SafeManagedResourcesDisposing()
         {
-            if (!m_Disposed)
+            Logout();
+
+            if (null != m_RequestSender)
             {
-                if (disposing)
-                {
-                    Logout();
-
-                    if (null != m_RequestSender)
-                    {
-                        m_RequestSender.Dispose();
-                        m_RequestSender = null;
-                    }
-                }
-
-                m_Disposed = true;
+                m_RequestSender.Dispose();
+                m_RequestSender = null;
             }
         }
-
 
         #region ICraneChatClient implementation
 
@@ -145,6 +121,8 @@ namespace CraneChat.Client
             {
                 return;
             }
+
+            m_RequestSender.UnfollowUser(new UnfollowUserRequest(m_UserName, m_Password, userToUnfollow));
         }
 
 
@@ -275,7 +253,13 @@ namespace CraneChat.Client
             if (null != m_PingTaskCancellationTokenSource)
             {
                 m_PingTaskCancellationTokenSource.Cancel();
-                m_PingTask.Wait();
+                try
+                {
+                    m_PingTask.Wait();
+                }
+                catch (AggregateException)
+                {
+                }
                 
                 m_PingTaskCancellationTokenSource.Dispose();
                 m_PingTaskCancellationTokenSource = null;
@@ -292,7 +276,7 @@ namespace CraneChat.Client
 
             if (null != m_UserName)
             {
-                m_SQSQueueReader = new SQSQueueReader("Request_" + m_UserName);
+                m_SQSQueueReader = new SQSQueueReader(CraneChatUtility.MakeUserResponseQueueName(m_UserName));
                 m_SQSQueueReader.SQSMessageEvent += MessageProcesor.ProcessIncomingMessage;
 
                 m_SQSQueueReader.Run();
@@ -322,8 +306,5 @@ namespace CraneChat.Client
         private CancellationTokenSource m_PingTaskCancellationTokenSource = null;
 
         private Dictionary<Guid, CraneChatRequest> m_SentRequests = new Dictionary<Guid, CraneChatRequest>();
-
-        private bool m_Disposed = false;
-
     }
 }

@@ -136,7 +136,14 @@ namespace CraneChat.CoreLibrary
 
                     if (null != ProcessorTask)
                     {
-                        ProcessorTask.Wait();
+                        try
+                        {
+                            ProcessorTask.Wait();
+                        }
+                        catch (AggregateException)
+                        {
+
+                        }
 
                         m_TaskCancellationTokenSource.Dispose();
                         m_TaskCancellationTokenSource = null;

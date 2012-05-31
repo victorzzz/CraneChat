@@ -8,7 +8,7 @@ namespace CraneChat.SQSMessages
     public enum CraneChatUserState
     {
         ONLINE = 0,
-        OFLINE
+        OFFLINE
     }
 
     [Serializable]

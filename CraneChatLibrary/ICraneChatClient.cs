@@ -7,7 +7,7 @@ using CraneChat.SQSMessages;
 
 namespace CraneChat.Client
 {
-    interface ICraneChatClient
+    public interface ICraneChatClient : IDisposable
     {
         void Login(string username, string password);
 

@@ -28,6 +28,7 @@ namespace CraneChat.Client
         public event SendGroupMessageResponseEventHandler SendGroupMessageResponseEvent;
         public event SendPrivateMessageResponseEventHandler SendPrivateMessageResponseEvent;
         public event LoginResponseEventHandler LoginResponseEvent;
+        public event CraneChatResponseEventHandler CraneChatResponseEvent;
 
         public CraneChatMessageProcessor()
         {
@@ -66,6 +67,7 @@ namespace CraneChat.Client
         {
             if (null != BroadcastMessageNotificationEvent)
             {
+                Console.WriteLine(String.Format("BroadcastMessageNotification: from:{0}; body:{1}", message.FromUser, message.MessageBody));
                 BroadcastMessageNotificationEvent(message);
             }
         }
@@ -106,6 +108,7 @@ namespace CraneChat.Client
         {
             if (null != ErrorCraneChatMessageResponseEvent)
             {
+                Console.WriteLine(String.Format("ErrorCraneChatMessageResponse: error:{0}", message.ErrorMessage));
                 ErrorCraneChatMessageResponseEvent(message);
             }
         }
@@ -162,7 +165,17 @@ namespace CraneChat.Client
         {
             if (null != LoginResponseEvent)
             {
+                Console.WriteLine(String.Format("LoginResponse: "));
                 LoginResponseEvent(message);
+            }
+        }
+
+        void OnMessage(CraneChatResponse message)
+        {
+            if (null != CraneChatResponseEvent)
+            {
+                Console.WriteLine(String.Format("CraneChatResponse: "));
+                CraneChatResponseEvent(message);
             }
         }
 

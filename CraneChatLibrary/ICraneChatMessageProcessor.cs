@@ -26,8 +26,9 @@ namespace CraneChat.Client
     public delegate void SendGroupMessageResponseEventHandler(SendGroupMessageResponse message);
     public delegate void SendPrivateMessageResponseEventHandler(SendPrivateMessageResponse message);
     public delegate void LoginResponseEventHandler(LoginResponse message);
+    public delegate void CraneChatResponseEventHandler(CraneChatResponse message);
 
-    interface ICraneChatMessageProcessor
+    public interface ICraneChatMessageProcessor
     {
         event UserStatusNotificationEventHandler UserStatusNotificationEvent;
         event BroadcastMessageNotificationEventHandler BroadcastMessageNotificationEvent;
@@ -43,6 +44,7 @@ namespace CraneChat.Client
         event SendGroupMessageResponseEventHandler SendGroupMessageResponseEvent;
         event SendPrivateMessageResponseEventHandler SendPrivateMessageResponseEvent;
         event LoginResponseEventHandler LoginResponseEvent;
+        event CraneChatResponseEventHandler CraneChatResponseEvent;
 
         void ProcessIncomingMessage(object sender, SQSMessageEventArgs e);
     }

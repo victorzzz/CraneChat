@@ -8,10 +8,20 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneChatWeb", "CraneChatWebApp\CraneChatWeb\CraneChatWeb.csproj", "{B465B465-F28C-4DBA-9885-0494BF6BA36A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTestApplication", "SimpleTestApplication\SimpleTestApplication.csproj", "{938AB751-CB3C-4B12-B3C6-004525E17411}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102} = {CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneChatServerApp", "CraneChatServerApp\CraneChatServerApp.csproj", "{2EABF886-CC69-4271-9FF2-C6814DB261ED}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneChatCoreLibrary", "CraneChatCorelibrary\CraneChatCoreLibrary.csproj", "{CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CraneChatWPFClient", "CraneChatWPFClient\CraneChatWPFClient.csproj", "{DD3E3931-8761-4E66-A484-CF9F2DB16029}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A10D9B3-C1DC-47EB-BD5F-630FDCBA8D30} = {1A10D9B3-C1DC-47EB-BD5F-630FDCBA8D30}
+		{CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102} = {CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102}
+		{1EE823F7-42FD-4A2E-84E0-AE68250FA69A} = {1EE823F7-42FD-4A2E-84E0-AE68250FA69A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +93,16 @@ Global
 		{CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CCC8A8C2-13ED-4F73-ACE6-EE4AF823A102}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Debug|x86.ActiveCfg = Debug|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Debug|x86.Build.0 = Debug|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Release|Any CPU.ActiveCfg = Release|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Release|Mixed Platforms.Build.0 = Release|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Release|x86.ActiveCfg = Release|x86
+		{DD3E3931-8761-4E66-A484-CF9F2DB16029}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

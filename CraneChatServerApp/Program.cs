@@ -9,6 +9,10 @@ namespace CraneChat.ServerApp
     {
         static void Main(string[] args)
         {
+            using (CraneChatServerApplication app = new CraneChatServerApplication())
+            {
+                app.Run();
+            }
         }
     }
 }
